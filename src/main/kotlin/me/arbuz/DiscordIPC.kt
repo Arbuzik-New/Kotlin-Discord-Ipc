@@ -5,10 +5,8 @@ import me.arbuz.connection.UnixConnection
 import me.arbuz.connection.packets.client.ClientFramePacket
 import me.arbuz.connection.payloads.client.ActivityArgsPayload
 import me.arbuz.connection.payloads.client.ActivityPayload
-import me.arbuz.connection.payloads.client.AssetsPayload
 import me.arbuz.connection.payloads.client.ClientFramePayload
 import me.arbuz.connection.payloads.client.Cmd
-import me.arbuz.connection.payloads.client.TimestampsPayload
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -40,7 +38,11 @@ object DiscordIPC {
     }
 
     fun wait(timeout : Double) {
-        User.wait(timeout)
+        val start = System.currentTimeMillis()
+        while (
+            (User.id == null || User.username == null || User.globalName == null || User.avatar == null || User.premiumType == null)
+            && System.currentTimeMillis() - start < timeout * 1000
+        ) Thread.sleep(1)
     }
 
     fun start(applicationId : String) {

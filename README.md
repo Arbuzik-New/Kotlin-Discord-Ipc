@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.2")
+    implementation("com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.3")
 }
 ```
 
@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.2'
+    implementation 'com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.3'
 }
 ```
 
@@ -48,7 +48,7 @@ dependencies {
 <dependency>
     <groupId>com.github.Arbuzik-New</groupId>
     <artifactId>Kotlin-Discord-Ipc</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
@@ -71,6 +71,8 @@ User.globalName - отображаемое имя пользователя
 User.avatar - название аватара пользователя
 User.premiumType - premium type пользователя
 User.avatarLink() - ссылка на аватар пользователя
+User.bytes - массив байтов аватара пользователя
+User.downloadAvatar() - скачать аватар пользователя
 ```
 
 ### Установка статуса
@@ -119,12 +121,17 @@ git clone https://github.com/Arbuzik-New/Kotlin-Discord-Ipc.git
 ## Проблемы
 ### Поля объекта User пустые
 1. Убедитесь, что запустили DiscordIPC
-2. Убедитесь, что подождали получение данных пользователя после запуска DiscordIPC `User.wait()`
+2. Убедитесь, что подождали получение данных пользователя после запуска DiscordIPC `DiscordIPC.wait()`
+3. Попробуйте ПОЛНОСТЬЮ перезапустить Discord
+
+### User.bytes пустое
+1. Убедитесь что вызвали User.downloadAvatar()
 
 ### RPC не работает
 1. Убедитесь в правильности Application Id
 2. Убедитесь в правильности указанных полей
 3. Убедитесь, что подождали handshake после запуска DiscordIPC `DiscordIPC.wait()`
+4. Попробуйте ПОЛНОСТЬЮ перезапустить Discord
 
 ### java.net.ConnectException: В соединении отказано
 1. Убедитесь что дискорд запущен
