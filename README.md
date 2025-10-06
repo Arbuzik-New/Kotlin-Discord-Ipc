@@ -103,7 +103,7 @@ DiscordIPC.setRPC(null)
 ## Forking
 ### Клонирование
 ```markdown
-git clone https://github.com/yourusername/discordipc-kotlin.git
+git clone https://github.com/Arbuzik-New/Kotlin-Discord-Ipc.git
 ```
 
 ### Сборка
