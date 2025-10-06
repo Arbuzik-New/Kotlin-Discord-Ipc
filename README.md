@@ -16,6 +16,7 @@ Kotlin библиотека для работы с Discord по IPC.\
 2. Discord
 3. [Application Id](https://discord.com/developers/applications)
 
+
 ## Gradle (Kotlin SDL)
 ```markdown
 repositories {
