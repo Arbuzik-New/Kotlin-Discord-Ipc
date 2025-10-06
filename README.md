@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.ArbuzikNew:Kotlin-Discord-Ipc:1.0.0")
+    implementation("com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.0")
 }
 ```
 
@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.ArbuzikNew:Kotlin-Discord-Ipc:1.0.0'
+    implementation 'com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.0'
 }
 ```
 
@@ -46,7 +46,7 @@ dependencies {
 </repository>
 
 <dependency>
-    <groupId>com.github.ArbuzikNew</groupId>
+    <groupId>com.github.Arbuzik-New</groupId>
     <artifactId>Kotlin-Discord-Ipc</artifactId>
     <version>1.0.0</version>
 </dependency>
