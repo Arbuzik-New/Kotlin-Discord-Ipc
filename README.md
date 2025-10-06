@@ -124,6 +124,7 @@ git clone https://github.com/Arbuzik-New/Kotlin-Discord-Ipc.git
 ### RPC не работает
 1. Убедитесь в правильности Application Id
 2. Убедитесь в правильности указанных полей
+3. Убедитесь, что подождали handshake после запуска DiscordIPC `DiscordIPC.wait()`
 
 ### java.net.ConnectException: В соединении отказано
 1. Убедитесь что дискорд запущен

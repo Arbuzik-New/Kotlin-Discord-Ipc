@@ -39,6 +39,10 @@ object DiscordIPC {
         throw RuntimeException("Failed to find socket!")
     }
 
+    fun wait(timeout : Double) {
+        User.wait(timeout)
+    }
+
     fun start(applicationId : String) {
         connection.connect(applicationId)
     }
@@ -64,6 +68,8 @@ object DiscordIPC {
                 ), "SetRPC"
             )
         ))
+
+        println(connection.getResponse("SetRPC", 25.0))
     }
 
 }

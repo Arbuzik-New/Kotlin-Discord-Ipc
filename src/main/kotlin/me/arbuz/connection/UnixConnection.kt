@@ -89,17 +89,17 @@ class UnixConnection(val path : Path) : Connection() {
 
                             val evt = try {
                                 val element = Json.parseToJsonElement(response)
-                                if (element is JsonObject) element["evt"]?.jsonPrimitive?.content!!
-                                else "null"
-                            } catch (e : Exception) {"null"}
+                                if (element is JsonObject) Evt.valueOf(element["evt"]?.jsonPrimitive?.content!!)
+                                else null
+                            } catch (e : Exception) {null}
 
                             val cmd = try {
                                 val element = Json.parseToJsonElement(response)
-                                if (element is JsonObject) element["cmd"]?.jsonPrimitive?.content!!
-                                else "null"
-                            } catch (e : Exception) {"null"}
+                                if (element is JsonObject) Cmd.valueOf(element["cmd"]?.jsonPrimitive?.content!!)
+                                else null
+                            } catch (e : Exception) {null}
 
-                            val packet = ServerPacket(OpCode.entries[opCode], Cmd.valueOf(cmd), nonce, Evt.valueOf(evt), response)
+                            val packet = ServerPacket(OpCode.entries[opCode], cmd, nonce, evt, response)
 
                             packets[nonce] = packet
 
@@ -133,6 +133,9 @@ class UnixConnection(val path : Path) : Connection() {
     }
 
     override fun handlePacket(packet : ServerPacket) {
+
+        println(packet.response)
+
         if (packet.nonce == "null" && packet.opCode == OpCode.FRAME && packet.cmd == Cmd.DISPATCH && packet.evt == Evt.READY) {
             val element = Json.parseToJsonElement(packet.response)
             if (element is JsonObject) {
@@ -159,6 +162,8 @@ class UnixConnection(val path : Path) : Connection() {
 
     override fun sendPacket(packet : ClientFramePacket) {
         val bytes = Json.encodeToString(packet.payload).toByteArray()
+
+        println(String(bytes))
 
         write(packet.opCode, bytes)
     }
