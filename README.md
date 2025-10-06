@@ -16,7 +16,6 @@ Kotlin библиотека для работы с Discord по IPC.\
 2. Discord
 3. [Application Id](https://discord.com/developers/applications)
 
-
 ## Gradle (Kotlin SDL)
 ```markdown
 repositories {
@@ -24,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.1")
+    implementation("com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.2")
 }
 ```
 
@@ -35,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.1'
+    implementation 'com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.2'
 }
 ```
 
@@ -49,7 +48,7 @@ dependencies {
 <dependency>
     <groupId>com.github.Arbuzik-New</groupId>
     <artifactId>Kotlin-Discord-Ipc</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 

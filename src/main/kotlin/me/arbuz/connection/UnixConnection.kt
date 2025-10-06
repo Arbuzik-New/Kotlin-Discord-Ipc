@@ -133,9 +133,6 @@ class UnixConnection(val path : Path) : Connection() {
     }
 
     override fun handlePacket(packet : ServerPacket) {
-
-        println(packet.response)
-
         if (packet.nonce == "null" && packet.opCode == OpCode.FRAME && packet.cmd == Cmd.DISPATCH && packet.evt == Evt.READY) {
             val element = Json.parseToJsonElement(packet.response)
             if (element is JsonObject) {
@@ -162,8 +159,6 @@ class UnixConnection(val path : Path) : Connection() {
 
     override fun sendPacket(packet : ClientFramePacket) {
         val bytes = Json.encodeToString(packet.payload).toByteArray()
-
-        println(String(bytes))
 
         write(packet.opCode, bytes)
     }

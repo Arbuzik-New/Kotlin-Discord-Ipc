@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "me.arbuz"
-version = "1.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()

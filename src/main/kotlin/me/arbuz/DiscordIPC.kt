@@ -68,8 +68,6 @@ object DiscordIPC {
                 ), "SetRPC"
             )
         ))
-
-        println(connection.getResponse("SetRPC", 25.0))
     }
 
 }
