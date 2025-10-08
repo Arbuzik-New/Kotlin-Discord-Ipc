@@ -1,7 +1,7 @@
 # DiscordIPC for Kotlin
 
 Kotlin библиотека для работы с Discord по IPC.\
-Библиотека протестирована на Linux (Windows Coming Soon)
+Библиотека протестирована на Linux, Windows
 
 ## Возможности
 1. Создание активности
@@ -12,9 +12,8 @@ Kotlin библиотека для работы с Discord по IPC.\
 6. Получение ссылки на аватар
 
 ## Требования
-1. Kotlin 1.8+
-2. Discord
-3. [Application Id](https://discord.com/developers/applications)
+1. Discord
+2. [Application Id](https://discord.com/developers/applications)
 
 ## Gradle (Kotlin SDL)
 ```markdown
@@ -23,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.3")
+    implementation("com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.4")
 }
 ```
 
@@ -34,7 +33,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.3'
+    implementation 'com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.4'
 }
 ```
 
@@ -48,7 +47,7 @@ dependencies {
 <dependency>
     <groupId>com.github.Arbuzik-New</groupId>
     <artifactId>Kotlin-Discord-Ipc</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
