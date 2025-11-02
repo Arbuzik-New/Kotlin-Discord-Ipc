@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.4")
+    implementation("com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.5")
 }
 ```
 
@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.4'
+    implementation 'com.github.Arbuzik-New:Kotlin-Discord-Ipc:1.0.5'
 }
 ```
 
@@ -47,19 +47,19 @@ dependencies {
 <dependency>
     <groupId>com.github.Arbuzik-New</groupId>
     <artifactId>Kotlin-Discord-Ipc</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 </dependency>
 ```
 
 ## Examples
 ### Подключение к IPC
 ```markdown
-DiscordIPC.start("application id")
+val ipc = DiscordIPC("application id")
 ```
 
 ### Отключение IPC
 ```markdown
-DiscordIPC.stop()
+ipc.stop()
 ```
 
 ### Получение данных пользователя
@@ -76,18 +76,17 @@ User.downloadAvatar() - скачать аватар пользователя
 
 ### Установка статуса
 ```markdown
-DiscordIPC.setRPC(
+ipc.setRPC(
     ActivityPayload(
-        state = "State",
-        stateUrl = "State Url",
         details = "Details",
         detailsUrl = "Details Url",
+        state = "State",
+        stateUrl = "State Url",
         timestamps = TimestampsPayload(System.currentTimeMillis()),
         assets = AssetsPayload(
             large_image = "url or id",
             large_text = "large image text",
             large_url = "large image url",
-                
             small_image = "url or id",
             small_text = "small image text",
             small_url = "small image url"
@@ -98,7 +97,7 @@ DiscordIPC.setRPC(
 
 ### Отключение статуса
 ```markdown
-DiscordIPC.setRPC(null)
+ipc.setRPC(null)
 ```
 
 ## Forking

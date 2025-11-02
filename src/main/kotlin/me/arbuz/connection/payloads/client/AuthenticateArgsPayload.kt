@@ -3,4 +3,4 @@ package me.arbuz.connection.payloads.client
 import kotlinx.serialization.Serializable
 
 @Serializable
-class ActivityArgsPayload(val pid : Long, val activity: ActivityPayload? = null) : ArgsPayload()
+class AuthenticateArgsPayload(val access_token : String) : ArgsPayload()

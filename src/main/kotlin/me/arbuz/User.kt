@@ -1,25 +1,17 @@
 package me.arbuz
 
 import java.io.ByteArrayOutputStream
-import java.io.InputStream
 import java.net.URI
-import java.net.URL
 
-object User {
-    var id : Long? = null
-    var username : String? = null
-    var globalName : String? = null
-    var avatar : String? = null
-    var premiumType : Int? = null
-    var bytes : ByteArray? = null
+class User(val id : Long, val username : String, val globalName : String, val avatar : String, val premiumType : Int) {
+    var bytes : ByteArray? = byteArrayOf()
 
-    fun avatarLink() : String? {
-        if (avatar == null) return null
+    fun avatarLink() : String {
         return "https://cdn.discordapp.com/avatars/$id/$avatar.png"
     }
 
     fun downloadAvatar() {
-        val link = avatarLink() ?: throw RuntimeException("Failed to get avatar link!")
+        val link = avatarLink()
         val url = URI.create(link).toURL()
 
         url.openStream().use{ stream ->

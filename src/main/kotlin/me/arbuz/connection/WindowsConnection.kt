@@ -2,11 +2,15 @@ package me.arbuz.connection
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import me.arbuz.DiscordIPC
 import me.arbuz.User
+import me.arbuz.connection.events.impl.ReadyEvent
 import me.arbuz.connection.packets.client.ClientFramePacket
 import me.arbuz.connection.packets.server.Evt
 import me.arbuz.connection.packets.server.ServerPacket
+import me.arbuz.connection.payloads.client.ClientFramePayload
 import me.arbuz.connection.payloads.client.Cmd
 import me.arbuz.connection.payloads.client.HandshakePayload
 import java.io.RandomAccessFile
@@ -14,7 +18,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import kotlin.concurrent.thread
 
-class WindowsConnection(private val file : RandomAccessFile) : Connection() {
+class WindowsConnection(private val file : RandomAccessFile, private val ipc : DiscordIPC) : Connection() {
 
     private var connected = false
 
@@ -31,6 +35,8 @@ class WindowsConnection(private val file : RandomAccessFile) : Connection() {
 
                 val opCode = file.readIntLE()
                 val length = file.readIntLE()
+
+                println("OpCode: $opCode, Length: $length")
 
                 if (length > 0) {
                     val responseBytes = ByteArray(length)
@@ -55,7 +61,13 @@ class WindowsConnection(private val file : RandomAccessFile) : Connection() {
                         else null
                     } catch (e: Exception) { null }
 
-                    val packet = ServerPacket(OpCode.entries[opCode], cmd, nonce, evt, response)
+                    val data = try {
+                        val element = Json.parseToJsonElement(response)
+                        if (element is JsonObject) element["data"]?.jsonObject
+                        else null
+                    } catch (e : Exception) {null}
+
+                    val packet = ServerPacket(OpCode.entries[opCode], cmd, nonce, evt, data, response)
                     packets[nonce] = packet
                     handlePacket(packet)
 
@@ -90,24 +102,16 @@ class WindowsConnection(private val file : RandomAccessFile) : Connection() {
 
     override fun handlePacket(packet: ServerPacket) {
         if (packet.nonce == "null" && packet.opCode == OpCode.FRAME && packet.cmd == Cmd.DISPATCH && packet.evt == Evt.READY) {
-            val element = Json.parseToJsonElement(packet.response)
-            if (element is JsonObject) {
-                val data = element["data"]
-                if (data is JsonObject) {
-                    val user = data["user"]
-                    if (user is JsonObject) {
-                        val id = user["id"]
-                        val username = user["username"]
-                        val globalName = user["global_name"]
-                        val avatar = user["avatar"]
-                        val premiumType = user["premium_type"]
+            if (packet.data is JsonObject) {
+                val user = packet.data["user"]
+                if (user is JsonObject) {
+                    val id = user["id"]!!.jsonPrimitive.content.toLong()
+                    val username = user["username"]!!.jsonPrimitive.content
+                    val globalName = user["global_name"]!!.jsonPrimitive.content
+                    val avatar = user["avatar"]!!.jsonPrimitive.content
+                    val premiumType = user["premium_type"]!!.jsonPrimitive.content.toInt()
 
-                        User.id = id!!.jsonPrimitive.content.toLong()
-                        User.username = username!!.jsonPrimitive.content
-                        User.globalName = globalName!!.jsonPrimitive.content
-                        User.avatar = avatar!!.jsonPrimitive.content
-                        User.premiumType = premiumType!!.jsonPrimitive.content.toInt()
-                    }
+                    ipc.postEvent(ReadyEvent(User(id, username, globalName, avatar, premiumType)))
                 }
             }
         }
@@ -120,9 +124,9 @@ class WindowsConnection(private val file : RandomAccessFile) : Connection() {
         write(OpCode.HANDSHAKE, bytes)
     }
 
-    override fun sendPacket(packet: ClientFramePacket) {
-        val bytes = Json.encodeToString(packet.payload).toByteArray()
-        write(packet.opCode, bytes)
+    override fun sendPayload(payload: ClientFramePayload) {
+        val bytes = Json.encodeToString(payload).toByteArray()
+        write(OpCode.FRAME, bytes)
     }
 
     override fun write(opCode: OpCode, bytes: ByteArray) {
@@ -149,7 +153,7 @@ class WindowsConnection(private val file : RandomAccessFile) : Connection() {
     }
 
     override fun getResponse(nonce: String?, timeout: Double): ServerPacket? {
-        waitResponse(nonce, timeout);
+        waitResponse(nonce, timeout)
         return packets.remove(nonce)
     }
 
